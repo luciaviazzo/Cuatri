@@ -1,0 +1,30 @@
+openapi: "3.0.3"
+info:
+  title: Cuatri — Health Endpoint
+  version: "0.1.0"
+  description: >
+    Único endpoint expuesto por el andamiaje inicial. Su único propósito es
+    confirmar que el servidor NestJS arrancó y es alcanzable.
+
+paths:
+  /health:
+    get:
+      summary: Verificación de estado del servidor
+      operationId: getHealth
+      tags:
+        - Infraestructura
+      responses:
+        "200":
+          description: El servidor está en ejecución.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - status
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - ok
+                    example: ok
