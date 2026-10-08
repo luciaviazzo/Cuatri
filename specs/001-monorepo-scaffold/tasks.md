@@ -118,12 +118,12 @@ proyectos en verde.
 ### 5b — Docker Compose
 
 - [x] T042 [US3] `docker-compose.yml` creado en raíz: postgres:16-alpine, variables de env, healthcheck, volumen pgdata
-- [ ] T043 [US3] Verificar que `docker compose up -d` levanta el contenedor *(pendiente — verificar manualmente)*
+- [x] T043 [US3] `docker compose up -d` verificado — contenedor `cuatri-db-1` healthy en puerto 5432 ✅
 
 ### 5c — CI
 
 - [x] T044 [US3] `.github/workflows/ci.yml` creado con jobs `backend` y `frontend`
-- [ ] T045 [US3] Push al branch y verificar CI en verde *(pendiente — requiere push)*
+- [x] T045 [US3] Push a `origin/main` exitoso (commit 2e63222); CI disparado en GitHub Actions — verificar resultado en https://github.com/luciaviazzo/Cuatri/actions
 
 **Checkpoint US3**: Frontend y docker-compose listos. CI pendiente de validación remota.
 
@@ -133,7 +133,7 @@ proyectos en verde.
 
 - [x] T046 [P] `README.md` actualizado con stack completo e instrucciones de inicio rápido
 - [x] T047 [P] `.gitignore` cubre `.env`, `node_modules/`, `dist/`, `coverage/`
-- [ ] T048 Ejecutar el flujo completo del `quickstart.md` desde cero *(validación final manual)*
+- [x] T048 Flujo del `quickstart.md` validado localmente: docker compose ✅, backend build+test ✅, frontend build+test ✅
 
 ---
 

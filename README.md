@@ -13,8 +13,8 @@ materias están habilitadas según los requisitos — sin necesidad de crear una
 | Herramienta | Versión | Rol |
 |-------------|---------|-----|
 | Node.js | 20 LTS | Runtime |
-| NestJS | 11 | Framework HTTP |
-| TypeScript | 5.7 (strict) | Lenguaje |
+| NestJS | 12 | Framework HTTP |
+| TypeScript | 6 (strict) | Lenguaje |
 | TypeORM | latest | Acceso a base de datos |
 | PostgreSQL | 16 | Base de datos relacional |
 | @nestjs/swagger | latest | Documentación OpenAPI 3 (generada desde decoradores) |
@@ -25,8 +25,8 @@ materias están habilitadas según los requisitos — sin necesidad de crear una
 | Herramienta | Versión | Rol |
 |-------------|---------|-----|
 | React | 19 | UI |
-| Vite | latest | Bundler / dev server |
-| TypeScript | 5.7 (strict) | Lenguaje |
+| Vite | 6 | Bundler / dev server |
+| TypeScript | 5.8 (strict) | Lenguaje |
 | Tailwind CSS | 4 | Estilos |
 
 ### Infraestructura
@@ -40,7 +40,7 @@ materias están habilitadas según los requisitos — sin necesidad de crear una
 
 | Herramienta | Alcance |
 |-------------|---------|
-| Jest + supertest | Tests unitarios y e2e del backend |
+| Vitest + supertest | Tests unitarios y e2e del backend |
 | Testcontainers | PostgreSQL efímero en tests de integración / e2e |
 | tsarch | Test de arquitectura (verifica reglas de capas) |
 | fast-check | Property-based testing para invariantes de dominio |
@@ -50,7 +50,8 @@ materias están habilitadas según los requisitos — sin necesidad de crear una
 
 | Herramienta | Configuración |
 |-------------|---------------|
-| ESLint + @typescript-eslint | Modo recomendado; configuración separada por carpeta |
+| oxlint | Linter del backend (generado por NestJS 12) |
+| ESLint 9 flat config + typescript-eslint | Linter del frontend |
 | eslint-config-prettier | Evita conflictos entre ESLint y Prettier |
 | Prettier | Configuración default; archivo por carpeta |
 
@@ -70,6 +71,7 @@ materias están habilitadas según los requisitos — sin necesidad de crear una
 │       ├── domain/         # Lógica de negocio (sin dependencias de framework)
 │       ├── repositories/   # Capa Repository (dominio ↔ persistencia)
 │       ├── adapters/       # Capa Adapter (integraciones externas)
+│       ├── migrations/     # Migraciones de TypeORM
 │       ├── main.ts
 │       └── app.module.ts
 └── frontend/               # SPA — React + Vite
@@ -130,7 +132,7 @@ Ambas carpetas exponen los mismos nombres de script:
 | Script | Descripción |
 |--------|-------------|
 | `npm run build` | Compila el proyecto |
-| `npm run lint` | Ejecuta ESLint |
+| `npm run lint` | Ejecuta el linter |
 | `npm test` | Tests unitarios (+ test de arquitectura en el backend) |
 | `npm run test:e2e` | Tests e2e con Testcontainers *(solo backend)* |
 
