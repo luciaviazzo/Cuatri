@@ -1,0 +1,286 @@
+openapi: 3.0.3
+
+info:
+  title: Cuatri API — Plan de Estudios
+  version: 0.2.0
+  description: Endpoints para cargar y gestionar el plan de estudios de una carrera.
+
+tags:
+  - name: Plan de Estudios
+    description: Carga inicial y consulta del plan de estudios
+
+  - name: Correlativas
+    description: Edición manual de correlativas sobre un plan ya cargado
+
+paths:
+
+  /carreras:
+    get:
+      tags: [Plan de Estudios]
+      summary: Listar carreras disponibles
+      description: Devuelve la lista de carreras registradas en el sistema. Necesario para que el
+        frontend presente el selector de carrera destino antes de subir el archivo.
+      operationId: listarCarreras
+      responses:
+        "200":
+          description: Lista de carreras
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CarreraResumen"
+
+  /carreras/{carreraId}/plan:
+    post:
+      tags: [Plan de Estudios]
+      summary: Cargar o reemplazar el plan de estudios de una carrera
+      description: |
+        Recibe un archivo JSON con la lista de materias. Si la carrera ya tiene un plan activo,
+        lo reemplaza de forma transaccional (o todo el plan nuevo, o el anterior permanece).
+        Rechaza con 422 si el archivo no cumple el formato, tiene materias sin año, correlativas
+        que referencian materias inexistentes, o ciclos de dependencias.
+      operationId: cargarPlanDeEstudios
+      parameters:
+        - $ref: "#/components/parameters/carreraId"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: Archivo JSON con la estructura de materias (max 1 MB)
+      responses:
+        "201":
+          description: Plan cargado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlanDeEstudiosDetalle"
+        "404":
+          description: Carrera no encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "422":
+          description: Archivo inválido o plan rechazado por reglas de dominio
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                archivoVacio:
+                  summary: Archivo sin materias
+                  value:
+                    error: "El archivo no contiene materias."
+                materiaSinAnio:
+                  summary: Materia sin año asignado
+                  value:
+                    error: "La materia 'Análisis Matemático I' no tiene año asignado."
+                correlativaInexistente:
+                  summary: Correlativa referencia materia inexistente
+                  value:
+                    error: "La materia 'Álgebra II' referencia como correlativa a 'Álgebra I', que no existe en el plan."
+                cicloDependencias:
+                  summary: Ciclo de dependencias detectado
+                  value:
+                    error: "Se detectó un ciclo de dependencias: Análisis Matemático I → Análisis Matemático II → Análisis Matemático I."
+
+    get:
+      tags: [Plan de Estudios]
+      summary: Obtener el plan de estudios activo de una carrera
+      operationId: obtenerPlanDeEstudios
+      parameters:
+        - $ref: "#/components/parameters/carreraId"
+      responses:
+        "200":
+          description: Plan de estudios activo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlanDeEstudiosDetalle"
+        "404":
+          description: Carrera no encontrada o sin plan activo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /carreras/{carreraId}/plan/materias/{materiaId}/correlativas:
+    post:
+      tags: [Correlativas]
+      summary: Agregar una correlativa a una materia
+      description: |
+        Agrega la materia identificada por `correlativaId` como requisito previo de la materia
+        `materiaId`. Rechaza si la materia referenciada no existe en el mismo plan, o si la
+        adición crearía un ciclo.
+      operationId: agregarCorrelativa
+      parameters:
+        - $ref: "#/components/parameters/carreraId"
+        - $ref: "#/components/parameters/materiaId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AgregarCorrelativaRequest"
+      responses:
+        "200":
+          description: Correlativa agregada; devuelve la materia actualizada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MateriaDetalle"
+        "404":
+          description: Carrera, materia o correlativa no encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "422":
+          description: Correlativa inválida (no existe en el plan o crea ciclo)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+    delete:
+      tags: [Correlativas]
+      summary: Quitar una correlativa de una materia
+      operationId: quitarCorrelativa
+      parameters:
+        - $ref: "#/components/parameters/carreraId"
+        - $ref: "#/components/parameters/materiaId"
+        - name: correlativaId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: ID de la materia a quitar como correlativa
+      responses:
+        "200":
+          description: Correlativa eliminada; devuelve la materia actualizada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MateriaDetalle"
+        "404":
+          description: Carrera, materia o correlativa no encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+
+  parameters:
+    carreraId:
+      name: carreraId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: ID de la carrera
+
+    materiaId:
+      name: materiaId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: ID de la materia
+
+  schemas:
+
+    CarreraResumen:
+      type: object
+      required: [id, nombre, codigo]
+      properties:
+        id:
+          type: string
+          format: uuid
+        nombre:
+          type: string
+          example: "Licenciatura en Sistemas de Información"
+        codigo:
+          type: string
+          example: "LSI"
+
+    PlanDeEstudiosDetalle:
+      type: object
+      required: [id, carreraId, creadoEn, materias]
+      properties:
+        id:
+          type: string
+          format: uuid
+        carreraId:
+          type: string
+          format: uuid
+        creadoEn:
+          type: string
+          format: date-time
+        materias:
+          type: array
+          items:
+            $ref: "#/components/schemas/MateriaDetalle"
+
+    MateriaDetalle:
+      type: object
+      required: [id, nombre, anio, correlativas, correlativasCompletas]
+      properties:
+        id:
+          type: string
+          format: uuid
+        nombre:
+          type: string
+          example: "Análisis Matemático II"
+        anio:
+          type: integer
+          minimum: 1
+          example: 2
+        correlativas:
+          type: array
+          items:
+            $ref: "#/components/schemas/CorrelativaResumen"
+        correlativasCompletas:
+          type: boolean
+          description: >
+            true si la materia tiene al menos una correlativa registrada;
+            false si la lista está vacía (configuración pendiente).
+
+    CorrelativaResumen:
+      type: object
+      required: [id, nombre]
+      properties:
+        id:
+          type: string
+          format: uuid
+        nombre:
+          type: string
+          example: "Análisis Matemático I"
+
+    AgregarCorrelativaRequest:
+      type: object
+      required: [correlativaId]
+      properties:
+        correlativaId:
+          type: string
+          format: uuid
+          description: ID de la materia a agregar como correlativa
+
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+          description: Descripción del error legible para el usuario
