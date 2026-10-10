@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Layout } from '../components/Layout.js';
+import { usePlan } from '../hooks/usePlan.js';
 import { getCarreras } from '../service/plan.js';
 import type { CarreraResumen } from '../types/plan.js';
-import { usePlan } from '../hooks/usePlan.js';
 
 export function CargarPlan() {
   const [carreras, setCarreras] = useState<CarreraResumen[]>([]);
@@ -32,7 +33,14 @@ export function CargarPlan() {
   }
 
   return (
-    <main className="mx-auto max-w-lg px-4 py-12">
+    <Layout>
+    <main className="mx-auto max-w-lg px-6 py-12">
+      <button
+        onClick={() => void navigate('/')}
+        className="mb-6 flex items-center gap-1 text-sm text-text-muted hover:text-text-base"
+      >
+        ← Volver
+      </button>
       <h1 className="mb-6 text-2xl font-bold text-text-base">Cargar plan de estudios</h1>
 
       {carrerasError && (
@@ -83,5 +91,6 @@ export function CargarPlan() {
         </button>
       </form>
     </main>
+    </Layout>
   );
 }

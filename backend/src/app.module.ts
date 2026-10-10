@@ -23,6 +23,7 @@ import { PlanModule } from './plan.module.js';
         password: config.get('DB_PASSWORD', 'cuatri_pass'),
         database: config.get('DB_NAME', 'cuatri_dev'),
         synchronize: false,
+        migrationsRun: true,
         entities: [CarreraEntity, PlanDeEstudiosEntity, MateriaEntity],
         migrations: [CreatePlanDeEstudiosSchema20261008210937],
       }),

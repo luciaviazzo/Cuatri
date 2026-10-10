@@ -3,13 +3,15 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './index.css';
 import { CargarPlan } from './pages/CargarPlan.js';
+import { HomePage } from './pages/HomePage.js';
 import { RevisionPlan } from './pages/RevisionPlan.js';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<CargarPlan />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/cargar" element={<CargarPlan />} />
         <Route path="/revision" element={<RevisionPlan />} />
       </Routes>
     </BrowserRouter>

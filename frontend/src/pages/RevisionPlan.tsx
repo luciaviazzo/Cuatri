@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CorrelativaForm } from '../components/CorrelativaForm.js';
+import { Layout } from '../components/Layout.js';
 import { MateriaCard } from '../components/MateriaCard.js';
 import { usePlan } from '../hooks/usePlan.js';
 import type { MateriaDetalle, PlanDeEstudiosDetalle } from '../types/plan.js';
@@ -16,15 +17,14 @@ export function RevisionPlan() {
 
   if (!plan) {
     return (
-      <main className="mx-auto max-w-lg px-4 py-12">
-        <p className="text-text-muted">No hay plan cargado.</p>
-        <button
-          onClick={() => void navigate('/')}
-          className="mt-4 text-primary underline"
-        >
-          Cargar plan
-        </button>
-      </main>
+      <Layout>
+        <main className="mx-auto max-w-lg px-6 py-12">
+          <p className="text-text-muted">No hay plan cargado.</p>
+          <button onClick={() => void navigate('/')} className="mt-4 text-primary underline">
+            Volver al inicio
+          </button>
+        </main>
+      </Layout>
     );
   }
 
@@ -38,43 +38,45 @@ export function RevisionPlan() {
     .sort((a, b) => a - b);
 
   return (
-    <main className="mx-auto max-w-2xl px-4 py-8">
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-text-base">Plan de estudios</h1>
-        <button onClick={() => void navigate('/')} className="text-sm text-primary underline">
-          Cargar otro plan
-        </button>
-      </div>
+    <Layout>
+      <main className="mx-auto max-w-2xl px-6 py-8">
+        <div className="mb-6 flex items-center justify-between">
+          <h1 className="text-2xl font-bold text-text-base">Plan de estudios</h1>
+          <button onClick={() => void navigate('/cargar')} className="text-sm text-primary underline">
+            Cargar otro plan
+          </button>
+        </div>
 
-      {anios.map((anio) => (
-        <section key={anio} className="mb-8">
-          <h2 className="mb-3 text-lg font-semibold text-text-muted">Año {anio}</h2>
-          <div className="space-y-3">
-            {porAnio[anio].map((materia) => (
-              <div key={materia.id}>
-                <MateriaCard
-                  materia={materia}
-                  onConfigClick={() =>
-                    setExpandedId((prev) => (prev === materia.id ? null : materia.id))
-                  }
-                />
-                {expandedId === materia.id && (
-                  <CorrelativaForm
+        {anios.map((anio) => (
+          <section key={anio} className="mb-8">
+            <h2 className="mb-3 text-lg font-semibold text-text-muted">Año {anio}</h2>
+            <div className="space-y-3">
+              {porAnio[anio].map((materia) => (
+                <div key={materia.id}>
+                  <MateriaCard
                     materia={materia}
-                    todasLasMaterias={plan.materias}
-                    onAdd={(correlativaId) =>
-                      agregarCorrelativa(plan.carreraId, materia.id, correlativaId)
-                    }
-                    onRemove={(correlativaId) =>
-                      quitarCorrelativa(plan.carreraId, materia.id, correlativaId)
+                    onConfigClick={() =>
+                      setExpandedId((prev) => (prev === materia.id ? null : materia.id))
                     }
                   />
-                )}
-              </div>
-            ))}
-          </div>
-        </section>
-      ))}
-    </main>
+                  {expandedId === materia.id && (
+                    <CorrelativaForm
+                      materia={materia}
+                      todasLasMaterias={plan.materias}
+                      onAdd={(correlativaId) =>
+                        agregarCorrelativa(plan.carreraId, materia.id, correlativaId)
+                      }
+                      onRemove={(correlativaId) =>
+                        quitarCorrelativa(plan.carreraId, materia.id, correlativaId)
+                      }
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
+        ))}
+      </main>
+    </Layout>
   );
 }
