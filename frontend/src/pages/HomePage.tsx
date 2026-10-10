@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 
 const PASOS = [
-  { num: 1, color: '#f9c5d1', texto: 'Cargá tu carrera' },
+  { num: 1, color: '#f9c5d1', texto: 'Cargá tu plan de estudios' },
   { num: 2, color: '#a8dbc5', texto: 'Marcá tus materias' },
-  { num: 3, color: '#a8cfe8', texto: 'Generá opciones de cursada' },
+  { num: 3, color: '#c4b5fd', texto: 'Generá opciones de cursada' },
 ];
 
 export function HomePage() {
@@ -51,8 +51,8 @@ export function HomePage() {
         </h1>
 
         <p className="mb-10 max-w-md text-base leading-relaxed text-text-muted">
-          Cargá tu carrera, marcá lo que aprobaste y Cuatri te muestra qué podés cursar, en qué
-          orden y cuánto te queda.
+          Cargá tu plan de estudios, marcá lo que aprobaste y Cuatri te muestra qué podés cursar,
+          en qué orden y cuánto te queda.
         </p>
 
         {/* Paso pills */}
@@ -83,17 +83,6 @@ export function HomePage() {
           Cargar mi primera carrera
         </button>
 
-        <p className="text-sm text-text-muted">
-          O explorá{' '}
-          <button
-            onClick={() => void navigate('/cargar')}
-            className="underline underline-offset-2 hover:opacity-75"
-            style={{ color: '#c084a8' }}
-          >
-            un plan de ejemplo
-          </button>{' '}
-          para ver cómo funciona.
-        </p>
       </div>
 
       {/* Footer */}

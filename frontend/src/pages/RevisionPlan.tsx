@@ -15,15 +15,24 @@ export function RevisionPlan() {
 
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
+  const volverBtn = (
+    <button
+      onClick={() => void navigate('/cargar')}
+      className="text-sm text-text-muted transition-colors hover:text-text-base"
+    >
+      ← Volver
+    </button>
+  );
+
   if (!plan) {
     return (
-      <Layout>
-        <main className="mx-auto max-w-lg px-6 py-12">
+      <Layout rightAction={volverBtn}>
+        <div className="mx-auto max-w-lg px-6 py-12">
           <p className="text-text-muted">No hay plan cargado.</p>
           <button onClick={() => void navigate('/')} className="mt-4 text-primary underline">
             Volver al inicio
           </button>
-        </main>
+        </div>
       </Layout>
     );
   }
@@ -38,8 +47,8 @@ export function RevisionPlan() {
     .sort((a, b) => a - b);
 
   return (
-    <Layout>
-      <main className="mx-auto max-w-2xl px-6 py-8">
+    <Layout rightAction={volverBtn}>
+      <div className="mx-auto max-w-2xl px-6 py-8">
         <div className="mb-6 flex items-center justify-between">
           <h1 className="text-2xl font-bold text-text-base">Plan de estudios</h1>
           <button onClick={() => void navigate('/cargar')} className="text-sm text-primary underline">
@@ -76,7 +85,7 @@ export function RevisionPlan() {
             </div>
           </section>
         ))}
-      </main>
+      </div>
     </Layout>
   );
 }
