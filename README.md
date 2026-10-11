@@ -108,20 +108,24 @@ docker compose up -d
 
 ### 4. Backend
 
-```bash
+\`\`\`bash
 cd backend
 npm install
-npm run start:dev   # http://localhost:3000
-                    # Swagger: http://localhost:3000/api/docs
-```
+npm run start:dev
+\`\`\`
+
+- API: [http://localhost:3000](http://localhost:3000)
+- Swagger: [http://localhost:3000/api/docs](http://localhost:3000/api/docs)
 
 ### 5. Frontend
 
-```bash
+\`\`\`bash
 cd frontend
 npm install
-npm run dev         # http://localhost:5173
-```
+npm run dev
+\`\`\`
+
+- App: [http://localhost:5173](http://localhost:5173)
 
 ---
 
@@ -150,13 +154,3 @@ El job de backend requiere Docker para Testcontainers. No hay deploy: el workflo
 
 Ver [`.specify/memory/constitution.md`](.specify/memory/constitution.md) para la constitución
 completa del proyecto.
-
-En resumen:
-
-- **Backend**: capas con dependencias en un único sentido —
-  `Controller → Service → {Dominio, Repository, Adapter}`.
-- **Frontend**: organizado por capa, nunca por feature.
-- **Dominio**: sin decoradores de NestJS ni TypeORM; lógica de negocio pura.
-- **Estados de materia**: solo `aprobada` y `en curso` se persisten; `habilitada` se calcula.
-- **Autenticación**: completamente opcional — toda la funcionalidad core funciona sin login.
-- **Tests**: unitarios sin base de datos, e2e con Testcontainers, property-based con fast-check.
