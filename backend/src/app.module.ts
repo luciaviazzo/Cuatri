@@ -24,6 +24,10 @@ import { PlanModule } from './plan.module.js';
         username: config.get('DB_USER', 'cuatri'),
         password: config.get('DB_PASSWORD', 'cuatri_pass'),
         database: config.get('DB_NAME', 'cuatri_dev'),
+        ssl:
+          config.get('DB_HOST', 'localhost') === 'localhost'
+            ? false
+            : { rejectUnauthorized: false },
         synchronize: false,
         migrationsRun: true,
         entities: [CarreraEntity, PlanDeEstudiosEntity, MateriaEntity],
