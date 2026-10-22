@@ -59,8 +59,7 @@ Una materia persiste únicamente **dos** estados posibles: `aprobada` (con nota 
 `en curso`. Los estados `habilitada` y `no habilitada` NO se persisten: se calculan evaluando
 si se cumplen los requisitos de la materia contra el conjunto de materias aprobadas.
 
-Una equivalencia se modela como una `aprobada` con un origen distinto (`equivalencia`), no como
-un quinto estado, y cuenta en el promedio solo si tiene nota asociada.
+Una equivalencia se modela como una aprobada con un origen distinto (equivalencia), no como un quinto estado.
 
 ### IV. Requisitos como reglas extensibles
 
