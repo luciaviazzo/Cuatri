@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import * as pg from 'pg';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { HealthController } from './controllers/health.controller.js';
@@ -17,6 +18,7 @@ import { PlanModule } from './plan.module.js';
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
         type: 'postgres',
+        driver: pg,
         host: config.get('DB_HOST', 'localhost'),
         port: config.get<number>('DB_PORT', 5432),
         username: config.get('DB_USER', 'cuatri'),
