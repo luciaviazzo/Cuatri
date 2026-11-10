@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as pg from 'pg';
@@ -16,23 +16,41 @@ import { PlanModule } from './plan.module.js';
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        type: 'postgres',
-        driver: pg,
-        host: config.get('DB_HOST', 'localhost'),
-        port: config.get<number>('DB_PORT', 5432),
-        username: config.get('DB_USER', 'cuatri'),
-        password: config.get('DB_PASSWORD', 'cuatri_pass'),
-        database: config.get('DB_NAME', 'cuatri_dev'),
-        ssl:
-          config.get('DB_HOST', 'localhost') === 'localhost'
-            ? false
-            : { rejectUnauthorized: false },
-        synchronize: false,
-        migrationsRun: true,
-        entities: [CarreraEntity, PlanDeEstudiosEntity, MateriaEntity],
-        migrations: [CreatePlanDeEstudiosSchema20261008210937],
-      }),
+      useFactory: (config: ConfigService) => {
+        const host = config.get<string>('DB_HOST', 'localhost');
+        const port = Number(config.get('DB_PORT', 5432));
+        const username = config.get<string>('DB_USER', 'cuatri');
+        const password = config.get<string>('DB_PASSWORD', 'cuatri_pass');
+        const database = config.get<string>('DB_NAME', 'cuatri_dev');
+
+        // Diagnóstico de arranque: nunca imprime usuario ni contraseña, solo la forma.
+        const tieneEspacios = (valor: string) => /^\s|\s$/.test(valor);
+        new Logger('DatabaseConfig').log(
+          `host=${host} port=${port} db=${database} ` +
+            `user[definido=${config.get('DB_USER') !== undefined}, conPunto=${username.includes('.')}, ` +
+            `espacios=${tieneEspacios(username)}] ` +
+            `password[definida=${config.get('DB_PASSWORD') !== undefined}, espacios=${tieneEspacios(password)}]`,
+        );
+
+        return {
+          type: 'postgres' as const,
+          driver: pg,
+          host,
+          port,
+          username,
+          password,
+          database,
+          ssl: host === 'localhost' ? false : { rejectUnauthorized: false },
+          synchronize: false,
+          migrationsRun: true,
+          // Fallar rápido: sin esto una conexión colgada deja la función sin responder hasta el timeout.
+          connectTimeoutMS: 10_000,
+          retryAttempts: 3,
+          retryDelay: 1_000,
+          entities: [CarreraEntity, PlanDeEstudiosEntity, MateriaEntity],
+          migrations: [CreatePlanDeEstudiosSchema20261008210937],
+        };
+      },
     }),
     PlanModule,
   ],
