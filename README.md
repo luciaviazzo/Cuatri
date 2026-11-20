@@ -1,156 +1,52 @@
-# Cuatri — Planificador de Cursada Multi-Carrera
+# Cuatri
 
-Plataforma de planificación académica multi-carrera (UNQ como primera carrera cargada).
-Permite cargar un plan de estudios, marcar materias aprobadas o en curso, y visualizar qué
-materias están habilitadas según los requisitos — sin necesidad de crear una cuenta.
+Monorepo: `backend/` (FastAPI + SQLAlchemy 2 + PostgreSQL) y `frontend/` (React 19 + Vite + Tailwind 4).
 
----
-
-## Stack
-
-### Backend
-
-| Herramienta | Versión | Rol |
-|-------------|---------|-----|
-| Node.js | 20 LTS | Runtime |
-| NestJS | 12 | Framework HTTP |
-| TypeScript | 6 (strict) | Lenguaje |
-| TypeORM | latest | Acceso a base de datos |
-| PostgreSQL | 16 | Base de datos relacional |
-| @nestjs/swagger | latest | Documentación OpenAPI 3 (generada desde decoradores) |
-| class-validator / class-transformer | latest | Validación de DTOs |
-
-### Frontend
-
-| Herramienta | Versión | Rol |
-|-------------|---------|-----|
-| React | 19 | UI |
-| Vite | 6 | Bundler / dev server |
-| TypeScript | 5.8 (strict) | Lenguaje |
-| Tailwind CSS | 4 | Estilos |
-
-### Infraestructura
-
-| Herramienta | Rol |
-|-------------|-----|
-| Docker Compose | PostgreSQL local de desarrollo |
-| GitHub Actions | CI (lint + build + test) |
-
-### Testing
-
-| Herramienta | Alcance |
-|-------------|---------|
-| Vitest + supertest | Tests unitarios y e2e del backend |
-| Testcontainers | PostgreSQL efímero en tests de integración / e2e |
-| tsarch | Test de arquitectura (verifica reglas de capas) |
-| fast-check | Property-based testing para invariantes de dominio |
-| Vitest + React Testing Library | Tests del frontend |
-
-### Calidad de código
-
-| Herramienta | Configuración |
-|-------------|---------------|
-| oxlint | Linter del backend (generado por NestJS 12) |
-| ESLint 9 flat config + typescript-eslint | Linter del frontend |
-| eslint-config-prettier | Evita conflictos entre ESLint y Prettier |
-| Prettier | Configuración default; archivo por carpeta |
-
----
-
-## Estructura del repositorio
-
-```text
-.
-├── .nvmrc                  # Node 20 LTS
-├── .env.example            # Variables de entorno (copiar a .env, no versionar)
-├── docker-compose.yml      # PostgreSQL 16 en puerto 5432
-├── backend/                # API REST — NestJS
-│   └── src/
-│       ├── controllers/    # Capa Controller
-│       ├── services/       # Capa Service
-│       ├── domain/         # Lógica de negocio (sin dependencias de framework)
-│       ├── repositories/   # Capa Repository (dominio ↔ persistencia)
-│       ├── adapters/       # Capa Adapter (integraciones externas)
-│       ├── migrations/     # Migraciones de TypeORM
-│       ├── main.ts
-│       └── app.module.ts
-└── frontend/               # SPA — React + Vite
-    └── src/
-        ├── service/        # Acceso a red (única capa que llama a fetch)
-        ├── hooks/          # Hooks que invocan a service/
-        ├── contexts/       # Estado compartido entre componentes lejanos
-        ├── components/     # Componentes reutilizables
-        ├── pages/          # Vistas de nivel de ruta
-        └── types/          # Tipos e interfaces TypeScript
-```
-
----
-
-## Inicio rápido
-
-### 1. Requisitos previos
-
-- Node.js 20 LTS (`nvm use` carga la versión desde `.nvmrc`)
-- Docker en ejecución
-
-### 2. Variables de entorno
+## Local: un solo comando
 
 ```bash
-cp .env.example .env
-cp frontend/.env.example frontend/.env   # ajustar VITE_API_URL si es necesario
+docker compose up --build
 ```
 
-### 3. Base de datos
+- Frontend: http://localhost:5173
+- Backend: http://localhost:8000 · health: `/health` · Swagger: `/docs`
+
+Las migraciones (`alembic upgrade head`) corren al arrancar el backend.
+
+## Desarrollo sin Docker para la app
 
 ```bash
-docker compose up -d
+docker compose up -d db
+cd backend && uv sync && uv run uvicorn app.main:app --reload
+cd frontend && npm ci && npm run dev
 ```
 
-### 4. Backend
+## Calidad (lo mismo que corre CI)
 
-\`\`\`bash
+```bash
 cd backend
-npm install
-npm run start:dev
-\`\`\`
+uv run ruff check . && uv run mypy && uv run lint-imports && uv run pytest
+uv run pytest -m integration   # testcontainers, requiere Docker (en Windows: TESTCONTAINERS_RYUK_DISABLED=true)
+cd ../frontend
+npm run lint && npm test && npm run build
+```
 
-- API: [http://localhost:3000](http://localhost:3000)
-- Swagger: [http://localhost:3000/api/docs](http://localhost:3000/api/docs)
+`lint-imports` falla el build si se viola la arquitectura (ver `[tool.importlinter]` en `backend/pyproject.toml`).
 
-### 5. Frontend
+## Arquitectura backend
 
-\`\`\`bash
-cd frontend
-npm install
-npm run dev
-\`\`\`
+`controllers → services → repositories/adapters`, con `domain` puro (sin FastAPI/SQLAlchemy).
+`app/core/wiring.py` es el único lugar que compone services con repositories.
+Errores: siempre `{"error": {"code", "message", "details?"}}`, sin stack traces.
 
-- App: [http://localhost:5173](http://localhost:5173)
+## Deploy
 
----
+**Backend (Render)**: New → Blueprint → este repo (`render.yaml` crea el web service Docker y la Postgres gestionada).
+Después setear `CORS_ORIGINS` = URL pública de Vercel.
 
-## Scripts
+**Frontend (Vercel)**: importar el repo con *Root Directory* = `frontend`; variable `VITE_API_URL` = URL pública del backend en Render.
 
-Ambas carpetas exponen los mismos nombres de script:
+**CI**: GitHub Actions (`.github/workflows/ci.yml`). Para SonarCloud: crear el proyecto, completar `sonar.organization` y
+`sonar.projectKey` en `sonar-project.properties` y agregar el secret `SONAR_TOKEN` al repo.
 
-| Script | Descripción |
-|--------|-------------|
-| `npm run build` | Compila el proyecto |
-| `npm run lint` | Ejecuta el linter |
-| `npm test` | Tests unitarios (+ test de arquitectura en el backend) |
-| `npm run test:e2e` | Tests e2e con Testcontainers *(solo backend)* |
-
----
-
-## CI
-
-GitHub Actions (`.github/workflows/ci.yml`) corre dos jobs independientes — `backend` y
-`frontend` — ejecutando `lint → build → test` (y `test:e2e` en el job de backend).
-El job de backend requiere Docker para Testcontainers. No hay deploy: el workflow solo valida.
-
----
-
-## Principios de arquitectura
-
-Ver [`.specify/memory/constitution.md`](.specify/memory/constitution.md) para la constitución
-completa del proyecto.
+Variables: ver `.env.example`.

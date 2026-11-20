@@ -1,0 +1,81 @@
+[project]
+name = "cuatri-backend"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "alembic>=1.20.1",
+    "fastapi>=0.165.0",
+    "psycopg[binary]>=3.3.9",
+    "pydantic-settings>=2.16.3",
+    "sqlalchemy>=2.0",
+    "uvicorn[standard]>=0.54.0",
+]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "import-linter>=2.17",
+    "mypy>=2.4.1",
+    "pytest>=9.2.0",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.17.6",
+    "testcontainers[postgresql]>=4.15.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["integration: tests que requieren Docker (testcontainers)"]
+addopts = "-m 'not integration'"
+
+[tool.mypy]
+strict = true
+plugins = ["pydantic.mypy"]
+files = ["app", "tests"]
+
+[[tool.mypy.overrides]]
+module = ["testcontainers.*"]
+ignore_missing_imports = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.importlinter]
+root_package = "app"
+include_external_packages = true
+
+[[tool.importlinter.contracts]]
+name = "Controllers no importan repositories ni adapters"
+type = "forbidden"
+source_modules = ["app.controllers"]
+forbidden_modules = ["app.repositories", "app.adapters"]
+allow_indirect_imports = true  # el wiring en core compone repositories
+
+[[tool.importlinter.contracts]]
+name = "Domain no depende de FastAPI ni SQLAlchemy"
+type = "forbidden"
+source_modules = ["app.domain"]
+forbidden_modules = ["fastapi", "starlette", "sqlalchemy"]
+
+[[tool.importlinter.contracts]]
+name = "Domain no depende de otras capas"
+type = "forbidden"
+source_modules = ["app.domain"]
+forbidden_modules = [
+    "app.controllers", "app.services", "app.repositories", "app.adapters", "app.core",
+]
+
+[[tool.importlinter.contracts]]
+name = "Services no importan adapters directamente"
+type = "forbidden"
+source_modules = ["app.services"]
+forbidden_modules = ["app.adapters", "app.controllers"]
+
+[[tool.importlinter.contracts]]
+name = "Repositories y adapters no dependen de capas superiores"
+type = "forbidden"
+source_modules = ["app.repositories", "app.adapters"]
+forbidden_modules = ["app.controllers", "app.services"]

@@ -2,18 +2,38 @@ services:
   db:
     image: postgres:16-alpine
     environment:
-      POSTGRES_DB: ${DB_NAME:-cuatri_dev}
-      POSTGRES_USER: ${DB_USER:-cuatri}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-cuatri_pass}
+      POSTGRES_USER: cuatri
+      POSTGRES_PASSWORD: cuatri
+      POSTGRES_DB: cuatri
     ports:
-      - "${DB_PORT:-5432}:5432"
+      - "5432:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-cuatri}"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+      test: ["CMD-SHELL", "pg_isready -U cuatri -d cuatri"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  backend:
+    build: ./backend
+    environment:
+      DATABASE_URL: postgresql+psycopg://cuatri:cuatri@db:5432/cuatri
+      CORS_ORIGINS: http://localhost:5173
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    environment:
+      VITE_API_URL: http://localhost:8000
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
 
 volumes:
-  pgdata:
+  postgres_data:
