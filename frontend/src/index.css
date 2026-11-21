@@ -1,1 +1,70 @@
 @import "tailwindcss";
+
+/*
+ * Tokens de la guía de estilo de Cuatri. Es el ÚNICO lugar donde se escriben colores y
+ * tipografías; los componentes los usan por clase (bg-cream, text-ink, border-rose-deep...).
+ */
+@theme {
+  /* Base */
+  --color-cream: #fdfbf7; /* fondo de la app */
+  --color-white: #ffffff; /* paneles y tarjetas */
+  --color-ink: #3b3a3a; /* texto principal */
+  --color-ink-soft: #6b6868; /* texto secundario */
+  --color-control-border: #8f8888; /* bordes de controles */
+
+  /* Marca */
+  --color-rose-powder: #e2b3c4; /* relleno principal, botones */
+  --color-rose-deep: #8f4562; /* títulos, enlaces, foco */
+  --color-lavender: #a6b1e2; /* secundario */
+
+  /* Arcoíris pastel: fondo, borde y texto oscuro. El texto pastel nunca va sobre claro. */
+  --color-rainbow-rosa-bg: #f9cfd8;
+  --color-rainbow-rosa-border: #e58aa0;
+  --color-rainbow-rosa-text: #6b2237;
+  --color-rainbow-durazno-bg: #fddcc4;
+  --color-rainbow-durazno-border: #eba36b;
+  --color-rainbow-durazno-text: #6b3510;
+  --color-rainbow-amarillo-bg: #fbefb5;
+  --color-rainbow-amarillo-border: #d9be45;
+  --color-rainbow-amarillo-text: #5a4800;
+  --color-rainbow-verde-bg: #cdefd6;
+  --color-rainbow-verde-border: #7bc693;
+  --color-rainbow-verde-text: #1f5133;
+  --color-rainbow-celeste-bg: #cbe6f8;
+  --color-rainbow-celeste-border: #7db8e0;
+  --color-rainbow-celeste-text: #17476b;
+  --color-rainbow-violeta-bg: #ddd3f7;
+  --color-rainbow-violeta-border: #a08ae0;
+  --color-rainbow-violeta-text: #3b2d75;
+  --color-rainbow-turquesa-bg: #c8eeea;
+  --color-rainbow-turquesa-border: #6fc4ba;
+  --color-rainbow-turquesa-text: #12504a;
+
+  /* Tipografías (autoalojadas con @fontsource-variable) */
+  --font-display: "Montserrat Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Source Sans 3 Variable", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+  }
+
+  /* Foco visible en todo elemento interactivo: rosa profundo, 6,4:1 sobre el crema. */
+  :focus-visible {
+    outline: 2px solid var(--color-rose-deep);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation: none !important;
+      transition: none !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
