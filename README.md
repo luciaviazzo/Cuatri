@@ -62,7 +62,6 @@ Después setear `CORS_ORIGINS` = URL pública de Vercel.
 
 **Frontend (Vercel)**: importar el repo con *Root Directory* = `frontend`; variable `VITE_API_URL` = URL pública del backend en Render.
 
-**CI**: GitHub Actions (`.github/workflows/ci.yml`). Para SonarCloud: crear el proyecto, completar `sonar.organization` y
-`sonar.projectKey` en `sonar-project.properties` y agregar el secret `SONAR_TOKEN` al repo.
+**CI**: GitHub Actions (`.github/workflows/ci.yml`): ruff, mypy, import-linter y pytest en el backend; lint, tipos, Vitest y build en el frontend.
 
 Variables: ver `.env.example`.

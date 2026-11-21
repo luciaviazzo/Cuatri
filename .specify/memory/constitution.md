@@ -1,13 +1,14 @@
 <!--
 Sync Impact Report (temporal, para revisión humana; eliminar antes de commitear)
-- Version change: (plantilla sin completar) → 1.0.0
-- Principios agregados: I a XI (todos nuevos; la constitución anterior era la plantilla vacía)
-- Secciones agregadas: Restricciones de Stack Tecnológico, Flujo de Desarrollo y Calidad, Gobernanza
-- Secciones eliminadas: ninguna
+- Version change: 1.0.0 → 1.0.1 (PATCH)
+- Motivo: el proyecto dejó de usar SonarCloud; se quita de las Restricciones de Stack (CI). Los
+  principios no cambian y ninguno exigía SonarCloud.
+- Principios modificados: ninguno
+- Secciones agregadas / eliminadas: ninguna
 - Plantillas dependientes: no se modificaron (leen la constitución en runtime)
 - TODOs diferidos: ninguno
-- Valores asumidos (no provistos por el usuario): fecha de ratificación = 2026-11-20 (fecha de
-  adopción) y reglas de enmienda/versionado/revisión de la sección Gobernanza.
+- Valores asumidos en 1.0.0 (no provistos por el usuario): reglas de enmienda, versionado y
+  revisión de la sección Gobernanza.
 -->
 # Cuatri — Planificador de Cursada Multi-Carrera Constitution
 
@@ -131,8 +132,7 @@ sin spec aprobada.
 - Testing backend: pytest, httpx (TestClient de FastAPI), testcontainers-python, import-linter,
   Hypothesis.
 - Testing frontend: Vitest con React Testing Library.
-- CI: GitHub Actions contra la base efímera de Testcontainers; SonarCloud para análisis
-  estático.
+- CI: GitHub Actions contra la base efímera de Testcontainers.
 - Estructura: monorepo único con `backend/` y `frontend/`, organización interna por capa en
   ambos.
 
@@ -158,4 +158,4 @@ Esta constitución prevalece sobre cualquier otra práctica o convención del pr
 - **Cumplimiento**: toda spec, plan y revisión DEBE verificar el cumplimiento de estos
   principios; los desvíos DEBEN justificarse explícitamente en la spec o el plan.
 
-**Version**: 1.0.0 | **Ratified**: 2026-11-20 | **Last Amended**: 2026-11-20
+**Version**: 1.0.1 | **Ratified**: 2026-11-20 | **Last Amended**: 2026-11-21
