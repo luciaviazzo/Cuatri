@@ -1,13 +1,45 @@
+# Variables de entorno (solo se versiona .env.example)
 .env
+.env.*
+!.env.example
+
+# Python
 .venv/
 __pycache__/
+*.py[cod]
+*.egg-info/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+.hypothesis/
+.import_linter_cache/
 .coverage
 coverage.xml
+htmlcov/
+
+# Node / frontend
 node_modules/
 dist/
 coverage/
 *.tsbuildinfo
 .vercel/
+
+# Logs
+*.log
+
+# Editor y sistema operativo
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Configuración local de Claude Code (puede contener permisos y datos personales)
+.claude/settings.local.json
+
+# Muestras reales con datos personales del alumno (nunca commitear)
+backend/tests/fixtures/private/
+# Red de seguridad: planes reales sueltos en cualquier carpeta del repo.
+# Los fixtures sintéticos se llaman plan_sintetico* y plan_con_correlativas*.
+plan_estudios*.pdf
+plan_estudios*.xls
+plan_estudios*.xlsx

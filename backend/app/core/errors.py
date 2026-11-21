@@ -9,6 +9,16 @@ from app.domain.errors import DomainError
 
 logger = logging.getLogger(__name__)
 
+# El estado HTTP de cada error de dominio se decide acá, no en el dominio (Principio I).
+_STATUS_BY_CODE: dict[str, int] = {
+    "database_unavailable": 503,
+    "empty_file": 400,
+    "file_too_large": 413,
+    "invalid_file": 422,
+    "no_subjects_found": 422,
+    "domain_invariant": 500,
+}
+
 
 def _error(status: int, code: str, message: str, details: object = None) -> JSONResponse:
     error: dict[str, object] = {"code": code, "message": message}
@@ -20,7 +30,7 @@ def _error(status: int, code: str, message: str, details: object = None) -> JSON
 def register_exception_handlers(app: FastAPI) -> None:
     @app.exception_handler(DomainError)
     async def domain_handler(_: Request, exc: DomainError) -> JSONResponse:
-        return _error(exc.status_code, exc.code, str(exc))
+        return _error(_STATUS_BY_CODE.get(exc.code, 400), exc.code, str(exc))
 
     @app.exception_handler(StarletteHTTPException)
     async def http_handler(_: Request, exc: StarletteHTTPException) -> JSONResponse:

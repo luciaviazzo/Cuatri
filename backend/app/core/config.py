@@ -11,6 +11,8 @@ class Settings(BaseSettings):
     # Orígenes permitidos para CORS, separados por coma.
     cors_origins: str = "http://localhost:5173"
     environment: str = "local"
+    # Tamaño máximo del archivo de plan a extraer (10 MB por defecto).
+    max_upload_bytes: int = 10 * 1024 * 1024
 
     @field_validator("database_url")
     @classmethod
