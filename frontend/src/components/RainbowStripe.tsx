@@ -1,4 +1,4 @@
-const RAINBOW = ['rosa', 'durazno', 'amarillo', 'verde', 'celeste', 'violeta', 'turquesa'] as const
+const RAINBOW = ['rosa', 'durazno', 'amarillo', 'verde', 'turquesa', 'celeste', 'violeta'] as const
 
 const GRADIENT = `linear-gradient(to right, ${RAINBOW.map(
   (name) => `var(--color-rainbow-${name}-bg)`,

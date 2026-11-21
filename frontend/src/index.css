@@ -3,8 +3,11 @@
 /*
  * Tokens de la guía de estilo de Cuatri. Es el ÚNICO lugar donde se escriben colores y
  * tipografías; los componentes los usan por clase (bg-cream, text-ink, border-rose-deep...).
+ *
+ * `static` fuerza a emitir TODAS las variables. Sin eso Tailwind 4 descarta las que ninguna clase
+ * usa, y la franja arcoíris (que las lee con var() desde JS) se queda sin degradé.
  */
-@theme {
+@theme static {
   /* Base */
   --color-cream: #fdfbf7; /* fondo de la app */
   --color-white: #ffffff; /* paneles y tarjetas */

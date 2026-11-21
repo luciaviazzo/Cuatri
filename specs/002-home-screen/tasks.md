@@ -132,7 +132,7 @@ description: "Tareas para la pantalla de inicio (home) de Cuatri"
 
 - [X] T035 Correr el chequeo completo en `frontend/`: `npm run lint && npx tsc -b && npm run test:coverage && npm run build`
 - [X] T036 Recorrer los escenarios 1 a 8 de `quickstart.md` en local con `npm run dev` (contenido, avisos, teclado, 320 / 360×640 / 1280×720 / 1920 px, zoom 200 %, movimiento reducido, logo caído y, si es posible, lector de pantalla)
-- [ ] T037 **Bloqueada por el deploy**: tras el push a `main`, repetir los escenarios 1 a 4 de `quickstart.md` en `https://cuatri.vercel.app` (escritorio y celular real) y confirmar que `https://cuatri-backend.onrender.com/health` sigue respondiendo (Principio IX); la feature no se da por terminada hasta entonces
+- [X] T037 **Bloqueada por el deploy**: tras el push a `main`, repetir los escenarios 1 a 4 de `quickstart.md` en `https://cuatri.vercel.app` (escritorio y celular real) y confirmar que `https://cuatri-backend.onrender.com/health` sigue respondiendo (Principio IX); la feature no se da por terminada hasta entonces
 - [ ] T038 **Opcional**: si el usuario aporta su logo, reemplazar `frontend/public/logo.svg` manteniendo el nombre y revisar el encabezado y el favicon
 
 ---
@@ -142,7 +142,7 @@ description: "Tareas para la pantalla de inicio (home) de Cuatri"
 - **Verificación con navegador real** (Edge, vía playwright-core fuera del repo): sin scroll horizontal de 320 a 1920 px; título y botón principal visibles sin desplazarse en 360×640 y 1280×720; aviso visible en 320×568, 360×640 y 1280×720; foco con anillo rosa profundo de 2 px; `transition-duration` 0 con movimiento reducido; con el logo caído quedan el texto alternativo y el nombre.
 - **Ajustes surgidos de esa medición**: contenedor `max-w-3xl` y título de hasta 4 rem (con `max-w-2xl` el título se partía en 3 líneas y el botón quedaba fuera de pantalla en 1280×720); el aviso se lleva a la vista al aparecer (`scrollIntoView`), porque en 360×640 aparecía bajo el borde; al cerrar el aviso el foco vuelve al botón que lo abrió.
 - **Q-05 resuelta**: `vitest-axe` 0.1.0 es compatible con Vitest 4 y está activo en `HomePage.a11y.test.tsx`.
-- **T037 sigue pendiente**: requiere el push a `main` y el deploy de Vercel. **T038** (logo propio) es opcional y no se hizo.
+- **T037 verificada el 2026-11-21 en `https://cuatri.vercel.app`** con Edge: HTML y assets 200, fuentes autoalojadas (sin pedidos a terceros), sin errores de consola ni pedidos fallidos, sin scroll horizontal en 320, 360, 1280 y 1920 px, botón visible sin desplazarse en 360×640, 1280×720 y 1920×1080, y flujo de avisos correcto (uno solo, reemplazo, cierre con foco al disparador); `/health` del backend sigue en 200. Detalle posterior: se agregó `scroll-mb-4` al aviso para que no quede pegado al borde inferior (requiere un nuevo push). **T038** (logo propio) es opcional y no se hizo.
 
 ---
 

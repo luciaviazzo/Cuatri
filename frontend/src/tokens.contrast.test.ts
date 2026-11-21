@@ -63,6 +63,12 @@ describe('tokens de la guía de estilo', () => {
     }
   })
 
+  it('el tema es `static`: se emiten todas las variables aunque ninguna clase las use', () => {
+    // La franja arcoíris lee los siete fondos con var() desde JS; sin `static` Tailwind descarta
+    // durazno, violeta y turquesa y el degradé desaparece.
+    expect(css).toMatch(/@theme\s+static\s*\{/)
+  })
+
   it.each(PAIRS)('%s cumple el contraste mínimo', (_description, fg, bg, minimum) => {
     expect(contrast(tokens[fg], tokens[bg])).toBeGreaterThanOrEqual(minimum)
   })

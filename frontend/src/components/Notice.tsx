@@ -26,7 +26,7 @@ export function Notice({ kind, onDismiss }: NoticeProps) {
       {kind !== null && (
         <div
           ref={box}
-          className="mt-6 flex items-start gap-3 rounded-xl border border-rainbow-amarillo-border bg-rainbow-amarillo-bg px-4 py-3 text-left text-rainbow-amarillo-text"
+          className="mt-6 flex scroll-mb-4 items-start gap-3 rounded-xl border border-rainbow-amarillo-border bg-rainbow-amarillo-bg px-4 py-3 text-left text-rainbow-amarillo-text"
         >
           <p className="flex-1">{homeCopy.notices[kind]}</p>
           <button
