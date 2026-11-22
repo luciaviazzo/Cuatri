@@ -1,5 +1,3 @@
-import type { NoticeKind } from '../types/notice'
-
 /** Textos del home en español rioplatense (contrato: specs/002-home-screen/contracts). */
 export const homeCopy = {
   brand: 'Cuatri',
@@ -12,14 +10,6 @@ export const homeCopy = {
     { label: 'Generá opciones de cursada', tone: 'blue' },
   ],
   primaryAction: '+ Cargar mi primera carrera',
-  samplePrefix: 'O explorá',
-  sampleAction: 'un plan de ejemplo',
-  sampleSuffix: 'para ver cómo funciona.',
   stepsLabel: 'Cómo funciona',
   logoAlt: 'Logo de Cuatri',
-  noticeClose: 'Cerrar aviso',
-  notices: {
-    career: 'Cargar tu carrera va a estar disponible muy pronto. ¡Gracias por la paciencia!',
-    sample: 'El plan de ejemplo todavía está en camino. ¡Pronto vas a poder explorarlo!',
-  } satisfies Record<NoticeKind, string>,
 } as const

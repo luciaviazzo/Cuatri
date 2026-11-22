@@ -1,25 +1,11 @@
-import { useRef } from 'react'
+import { ButtonLink } from '../components/ButtonLink'
 import { Logo } from '../components/Logo'
-import { Notice } from '../components/Notice'
-import { PrimaryButton } from '../components/PrimaryButton'
 import { RainbowStripe } from '../components/RainbowStripe'
 import { StepPill } from '../components/StepPill'
-import { useNotice } from '../hooks/useNotice'
 import { homeCopy } from './homeCopy'
 
 /** Pantalla de inicio de Cuatri: explica qué hace la app y lleva a empezar. */
 export function HomePage() {
-  const { activeNotice, show, dismiss } = useNotice()
-  const careerButton = useRef<HTMLButtonElement>(null)
-  const sampleButton = useRef<HTMLButtonElement>(null)
-
-  // Al cerrar el aviso el botón "Cerrar" desaparece: el foco vuelve a quien lo abrió.
-  const handleDismiss = () => {
-    const opener = activeNotice === 'sample' ? sampleButton : careerButton
-    dismiss()
-    opener.current?.focus()
-  }
-
   return (
     <>
       <RainbowStripe />
@@ -45,24 +31,8 @@ export function HomePage() {
         </ol>
 
         <div className="mt-6 sm:mt-10">
-          <PrimaryButton ref={careerButton} onClick={() => show('career')}>{homeCopy.primaryAction}</PrimaryButton>
+          <ButtonLink to="/cargar-carrera">{homeCopy.primaryAction}</ButtonLink>
         </div>
-
-        {/* Hoy no hay destino: se comporta como acción (botón) con aspecto de enlace. */}
-        <p className="mt-3 text-sm text-ink-soft sm:mt-4">
-          {homeCopy.samplePrefix}{' '}
-          <button
-            ref={sampleButton}
-            type="button"
-            onClick={() => show('sample')}
-            className="cursor-pointer font-semibold text-rose-deep underline decoration-rose-powder underline-offset-4"
-          >
-            {homeCopy.sampleAction}
-          </button>{' '}
-          {homeCopy.sampleSuffix}
-        </p>
-
-        <Notice kind={activeNotice} onDismiss={handleDismiss} />
       </main>
     </>
   )

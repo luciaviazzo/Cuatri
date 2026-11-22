@@ -1,5 +1,9 @@
 # Modelo de la interfaz: Pantalla de inicio
 
+> **Nota (2026-11-21)**: la feature 003 (cargar la carrera) reemplazó el aviso de "próximamente" por la
+> navegación real. Todo lo que este documento dice sobre `Notice`, `useNotice` y los avisos quedó
+> retirado; ver `specs/003-career-upload/` y `spec.md` de esta feature.
+
 No hay datos persistentes ni red. Esta feature define tokens de estilo, tipos de los componentes y el
 único estado de la pantalla: el aviso visible. Las constantes de texto viven en
 `src/pages/homeCopy.ts`; los tipos, en `src/types/`.
@@ -8,7 +12,7 @@ No hay datos persistentes ni red. Esta feature define tokens de estilo, tipos de
 
 | Elemento | Tipo | Regla |
 |----------|------|-------|
-| `NoticeKind` (`types/notice.ts`) | `'career' \| 'sample'` | `career`: botón "Cargar mi primera carrera"; `sample`: enlace "un plan de ejemplo" |
+| `NoticeKind` (`types/notice.ts`) | `'career'` | `career`: botón "Cargar mi primera carrera". El tipo es una unión para sumar avisos cuando otras features lo pidan |
 | `activeNotice` | `NoticeKind \| null` | Como máximo uno a la vez (FR-010). Inicia en `null` |
 | `show(kind)` | acción | Reemplaza el aviso actual; si ya es el mismo, no cambia nada (no se duplica ni se re-anuncia) |
 | `dismiss()` | acción | Pone `activeNotice` en `null` |
@@ -18,11 +22,9 @@ No hay datos persistentes ni red. Esta feature define tokens de estilo, tipos de
 | Desde | Evento | Hacia |
 |-------|--------|-------|
 | `null` | `show('career')` | `career` |
-| `null` | `show('sample')` | `sample` |
-| `career` | `show('sample')` | `sample` (reemplaza) |
-| `sample` | `show('career')` | `career` (reemplaza) |
-| `career` / `sample` | `show` con el mismo tipo | sin cambio |
-| `career` / `sample` | `dismiss()` | `null` |
+| `career` | `show('career')` | `career` (sin cambio: no se duplica) |
+| `career` | `dismiss()` | `null` |
+| `null` | `dismiss()` | `null` |
 
 ## Tipos de componentes
 

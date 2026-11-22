@@ -144,6 +144,8 @@ description: "Tareas para la pantalla de inicio (home) de Cuatri"
 - **Q-05 resuelta**: `vitest-axe` 0.1.0 es compatible con Vitest 4 y está activo en `HomePage.a11y.test.tsx`.
 - **T037 verificada el 2026-11-21 en `https://cuatri.vercel.app`** con Edge: HTML y assets 200, fuentes autoalojadas (sin pedidos a terceros), sin errores de consola ni pedidos fallidos, sin scroll horizontal en 320, 360, 1280 y 1920 px, botón visible sin desplazarse en 360×640, 1280×720 y 1920×1080, y flujo de avisos correcto (uno solo, reemplazo, cierre con foco al disparador); `/health` del backend sigue en 200. Detalle posterior: se agregó `scroll-mb-4` al aviso para que no quede pegado al borde inferior (requiere un nuevo push). **T038** (logo propio) es opcional y no se hizo.
 
+- **Cambio posterior (2026-11-21, pedido del usuario)**: se quitó "O explorá un plan de ejemplo para ver cómo funciona." del home (spec FR-007/FR-009/FR-010, US2 y US3 ajustados). Consecuencias: `NoticeKind` queda en `'career'`, desaparecen el botón-enlace, el aviso `sample` y los tests de reemplazo de avisos, y el orden de Tab es botón principal → "Cerrar aviso". Las tareas T011 a T037 que mencionan el plan de ejemplo quedan superadas por este cambio.
+
 ---
 
 ## Dependencies & Execution Order

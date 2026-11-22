@@ -55,6 +55,20 @@ registra el nombre ni el legajo del alumno. Sin servicios externos ni API keys.
   personales y van en `backend/tests/fixtures/private/` (ignorada por git); si están, corren los
   tests de `tests/acceptance/`.
 
+## Pantalla "Cargá tu carrera" (`/cargar-carrera`)
+
+El botón "+ Cargar mi primera carrera" del inicio lleva a `/cargar-carrera`: se elige o se arrastra el
+reporte "Plan de estudios" (PDF o Excel `.xls`, hasta 10 MB), se analiza con `POST /planes/extraccion`
+y se revisan las materias agrupadas por módulo. El resultado **solo se muestra: no se guarda** y se
+pierde al salir o recargar; el nombre y el legajo del reporte nunca se muestran.
+
+- Usa `VITE_API_URL` (ver `.env.example`); sin ella apunta a `http://localhost:8000`.
+- Al entrar dispara un `GET /health` para despertar al backend gratuito de Render; a los 10 s de
+  análisis avisa que puede demorar y a los 60 s lo trata como servicio no disponible.
+- **CORS**: el backend solo acepta los orígenes de `CORS_ORIGINS`. Las vistas previas de Vercel y el
+  desarrollo local contra el backend de Render requieren sumar ese origen en Render.
+- Tests del frontend: `cd frontend && npm test` (Vitest + React Testing Library).
+
 ## Deploy
 
 **Backend (Render)**: New → Blueprint → este repo (`render.yaml` crea el web service Docker y la Postgres gestionada).

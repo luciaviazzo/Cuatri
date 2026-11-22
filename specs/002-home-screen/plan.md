@@ -7,9 +7,9 @@
 ## Summary
 
 Reemplazar el placeholder actual por el home real de Cuatri: franja arcoíris, logo, nombre, título
-en dos líneas, bajada, tres pasos informativos, botón principal y enlace al plan de ejemplo. Los
-dos disparadores muestran un aviso amable ("próximamente") porque sus flujos se especifican en otras
-features. Sin pie de página ni "Salir", y sin el indicador de estado del servicio.
+en dos líneas, bajada, tres pasos informativos y botón principal. El botón muestra un aviso amable
+("próximamente") porque su flujo se especifica en otra feature. Sin pie de página, sin "Salir", sin
+enlace al plan de ejemplo (se agregará con su feature) y sin el indicador de estado del servicio.
 
 Enfoque técnico: solo frontend, sin red. React 19 + Tailwind CSS 4 con los **tokens de la guía de
 estilo definidos en un solo lugar** (`@theme` en `index.css`), tipografías autoalojadas, estructura

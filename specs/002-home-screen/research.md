@@ -1,5 +1,9 @@
 # Research y decisiones: Pantalla de inicio (home)
 
+> **Nota (2026-11-21)**: la feature 003 (cargar la carrera) reemplazó el aviso de "próximamente" por la
+> navegación real. Todo lo que este documento dice sobre `Notice`, `useNotice` y los avisos quedó
+> retirado; ver `specs/003-career-upload/` y `spec.md` de esta feature.
+
 ## R-01. Tokens de la guía en un solo lugar
 
 - **Decision**: bloque `@theme` de Tailwind CSS 4 en `frontend/src/index.css` con todos los colores y
@@ -64,13 +68,12 @@ Calculado con la fórmula WCAG 2.x sobre los valores de la guía:
 - **Alternatives**: `role="alert"` (interrumpe, es excesivo para algo amable); modal (bloqueante y
   desproporcionado).
 
-## R-05. "Un plan de ejemplo" implementado como botón
+## R-05. "Un plan de ejemplo" (retirado)
 
-- **Decision**: elemento `<button type="button">` con aspecto de enlace.
-- **Rationale**: hoy no hay destino y la activación dispara una acción, no una navegación. Un
-  `<a>` sin destino real se anuncia mal y engaña. Cuando exista la feature, pasa a ser un enlace
-  real.
-- **Alternatives**: `<a href="#">` (salta al inicio de la página y es semánticamente incorrecto).
+- **Decision (2026-11-21)**: el texto "O explorá un plan de ejemplo para ver cómo funciona." se quitó
+  del home por pedido del usuario. Se agregará con la feature del plan de ejemplo.
+- **Nota**: cuando vuelva, conviene un enlace real (`<a>`) hacia su destino; mientras no haya
+  destino, un botón con aspecto de enlace era la opción semánticamente correcta (no `<a href="#">`).
 
 ## R-06. Retirada del placeholder
 
@@ -84,7 +87,7 @@ Calculado con la fórmula WCAG 2.x sobre los valores de la guía:
 
 - **Vitest + RTL**: textos exactos y orden del DOM, ausencia de "Salir" y de pie de página,
   semántica (`h1`, lista ordenada, botones, región `status`), orden de tabulación (botón principal →
-  plan de ejemplo), avisos (aparece, se reemplaza, se cierra, no se duplica), texto alternativo del
+  cierre del aviso), avisos (aparece, se cierra, no se duplica, el foco vuelve al botón), texto alternativo del
   logo.
 - **Contraste automático**: un test parsea `index.css` y verifica con la fórmula WCAG cada par de la
   tabla de R-03 (mínimos 4,5 / 3).

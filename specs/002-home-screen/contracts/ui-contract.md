@@ -1,5 +1,9 @@
 # Contrato de interfaz: Pantalla de inicio
 
+> **Nota (2026-11-21)**: la feature 003 (cargar la carrera) reemplazó el aviso de "próximamente" por la
+> navegación real. Todo lo que este documento dice sobre `Notice`, `useNotice` y los avisos quedó
+> retirado; ver `specs/003-career-upload/` y `spec.md` de esta feature.
+
 > Documento de **diseño** de la pantalla (textos, estructura, interacción y accesibilidad). No hay
 > API ni endpoints en esta feature.
 
@@ -15,13 +19,12 @@
 | Paso 2 (verde) | `Marcá tus materias` |
 | Paso 3 (celeste) | `Generá opciones de cursada` |
 | Botón principal | `+ Cargar mi primera carrera` |
-| Texto debajo del botón | `O explorá` + `un plan de ejemplo` (acción) + `para ver cómo funciona.` |
 | Aviso `career` (propuesta, Q-03) | `Cargar tu carrera va a estar disponible muy pronto. ¡Gracias por la paciencia!` |
-| Aviso `sample` (propuesta, Q-03) | `El plan de ejemplo todavía está en camino. ¡Pronto vas a poder explorarlo!` |
 | Botón de cierre | nombre accesible `Cerrar aviso` |
 | Texto alternativo del logo | `Logo de Cuatri` |
 
-No existen: texto "Salir", pie de página ni indicador de estado del servicio.
+No existen: texto "Salir", pie de página, texto ni enlace de "plan de ejemplo" (se agregarán con su
+feature) ni indicador de estado del servicio.
 
 ## Estructura y orden del DOM
 
@@ -32,20 +35,18 @@ No existen: texto "Salir", pie de página ni indicador de estado del servicio.
    3. Bajada (`p`).
    4. Lista ordenada (`ol`) con los tres pasos; sin navegación.
    5. Botón principal.
-   6. Párrafo con el botón con aspecto de enlace.
-   7. Región `role="status"` (siempre presente) con el aviso.
+   6. Región `role="status"` (siempre presente) con el aviso.
 
 ## Interacción
 
 | Acción | Resultado |
 |--------|-----------|
 | Activar el botón principal (clic, toque, Enter, Espacio) | Aparece el aviso `career`; no se cambia de pantalla; el foco se queda en el botón |
-| Activar "un plan de ejemplo" | Aparece el aviso `sample` reemplazando a otro visible |
 | Activar la misma acción otra vez | No cambia nada (sin duplicar) |
 | Activar "Cerrar aviso" | El aviso desaparece y el foco vuelve al botón que lo abrió |
 | Aparece un aviso fuera de la zona visible (pantallas bajas) | Se lo lleva a la vista (sin animación con movimiento reducido); el foco no se mueve |
 
-Orden de tabulación: botón principal → "un plan de ejemplo" → (si hay aviso) "Cerrar aviso". Los
+Orden de tabulación: botón principal → (si hay aviso) "Cerrar aviso". Los
 pasos no son enfocables.
 
 ## Accesibilidad

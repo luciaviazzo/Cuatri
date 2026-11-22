@@ -14,6 +14,9 @@
 
 - Q: ¿Qué color lleva el resaltado "sin volverte loca." (el rosa del mockup no llega al contraste AA)? → A: El rosa profundo de la guía de estilo, que cumple AA (6,6:1 sobre el fondo crema).
 - Q: ¿Qué hace "Salir", si Cuatri funciona sin cuenta ni sesión? → A: No se muestra hasta que exista la sesión; sin "Salir" tampoco hay pie de página.
+- Q: ¿Se mantiene el texto "O explorá un plan de ejemplo para ver cómo funciona." debajo del botón? → A: No, se quita. Se agregará junto con la feature del plan de ejemplo, cuando exista.
+
+- Q: ¿Qué hace el botón principal ahora que existe la pantalla de carga de la carrera (feature 003)? → A: Lleva a esa pantalla como un enlace real; el aviso de "próximamente" se retira.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -28,7 +31,7 @@ cómo empezar, el resto del producto no se usa.
 
 **Independent Test**: Abrir la pantalla en computadora y en celular y verificar que aparecen, en
 ese orden, la franja de colores, el logo, el nombre, el título, la bajada, los tres pasos, el botón
-principal y el texto con el enlace; y que una persona que ve la pantalla 10 segundos puede
+principal; y que una persona que ve la pantalla 10 segundos puede
 contar qué hace Cuatri.
 
 **Acceptance Scenarios**:
@@ -36,8 +39,8 @@ contar qué hace Cuatri.
 1. **Given** una persona que abre Cuatri sin cuenta, **When** carga la pantalla de inicio, **Then**
    ve de arriba hacia abajo, centrados: una franja fina con los colores del arcoíris pastel en el
    borde superior, el logo, el nombre "Cuatri", el título en dos líneas, la bajada, tres pasos, el
-   botón "+ Cargar mi primera carrera" y el texto "O explorá un plan de ejemplo para ver cómo
-   funciona.". No hay pie de página ni opción "Salir".
+   botón "+ Cargar mi primera carrera". No hay pie de página, opción "Salir" ni enlace a un plan
+   de ejemplo.
 2. **Given** la pantalla de inicio, **When** la persona lee el título, **Then** la primera línea es
    "Planificá tu cursada" y la segunda, "sin volverte loca.", resaltada con el rosa profundo de la guía.
 3. **Given** la pantalla de inicio, **When** la persona lee la bajada, **Then** dice: "Cargá tu
@@ -51,29 +54,27 @@ contar qué hace Cuatri.
 
 ---
 
-### User Story 2 - Los botones no rompen la experiencia aunque el destino aún no exista (Priority: P1)
+### User Story 2 - El botón principal lleva a cargar la carrera (Priority: P1)
 
-El botón principal ("Cargar mi primera carrera") y el enlace "un plan de ejemplo" llevan a flujos
-que se construyen en otras features. Hasta entonces, al activarlos la persona recibe un aviso claro
-y amable de que esa parte todavía no está disponible, sin salir de la pantalla ni ver errores.
+El botón principal ("+ Cargar mi primera carrera") es un enlace que lleva a la pantalla de carga de
+la carrera (feature 003). Mientras esa feature no estaba, el botón mostraba un aviso de
+"próximamente"; ese aviso se retiró al implementarla (2026-11-21).
 
-**Why this priority**: La pantalla ya se publica y la gente va a tocar los botones. Un clic que no
-responde o que muestra un error rompe la confianza en el producto desde el primer segundo.
+**Why this priority**: Es la acción principal del inicio: si no lleva a ningún lado o falla, la
+persona no puede empezar.
 
-**Independent Test**: Activar cada una de las dos acciones con mouse, con teclado y con toque, y
-verificar que aparece el aviso, que la pantalla sigue usable y que no hay errores.
+**Independent Test**: Activar el botón con mouse, con teclado y con toque, y verificar que lleva a la
+pantalla de carga de la carrera y que se puede volver al inicio.
 
 **Acceptance Scenarios**:
 
 1. **Given** la pantalla de inicio, **When** la persona activa "+ Cargar mi primera carrera",
-   **Then** aparece un aviso amable que indica que cargar una carrera estará disponible pronto, y
-   la persona sigue en la misma pantalla.
-2. **Given** la pantalla de inicio, **When** la persona activa "un plan de ejemplo", **Then**
-   aparece un aviso amable equivalente para el plan de ejemplo, sin cambiar de pantalla.
-3. **Given** un aviso visible, **When** la persona lo cierra o activa la otra acción, **Then** el
-   aviso desaparece o se reemplaza por el nuevo, y nunca se acumulan varios.
-4. **Given** una persona que usa lector de pantalla, **When** aparece el aviso, **Then** el lector
-   lo anuncia sin que la persona tenga que buscarlo.
+   **Then** llega a la pantalla de carga de la carrera.
+2. **Given** la pantalla de inicio, **When** la persona usa solo teclado, **Then** el botón
+   principal se alcanza con Tab y se activa con Enter.
+3. **Given** el botón principal, **When** la persona lo abre en una pestaña nueva (por ejemplo con
+   clic del medio), **Then** la pantalla de carga se abre igual, porque es un enlace real.
+4. **Given** la pantalla de inicio, **When** se la mira, **Then** no hay avisos de "próximamente".
 
 ---
 
@@ -95,9 +96,8 @@ recorrerla solo con la tecla Tab y medir los contrastes de cada par de colores.
    hacia abajo.
 2. **Given** una computadora de pantalla ancha, **When** se abre la pantalla, **Then** el contenido
    queda centrado con un ancho de lectura cómodo, sin estirarse de borde a borde.
-3. **Given** el uso solo con teclado, **When** la persona avanza con Tab, **Then** pasa en orden
-   lógico por el botón principal y el enlace del plan de ejemplo, y cada uno muestra un indicador
-   de foco claramente visible.
+3. **Given** el uso solo con teclado, **When** la persona avanza con Tab, **Then** pasa al
+   botón principal, que muestra un indicador de foco claramente visible.
 4. **Given** cualquier texto de la pantalla, **When** se mide su contraste con el fondo, **Then**
    cumple el nivel AA de accesibilidad (4.5:1, o 3:1 si es texto grande).
 
@@ -111,8 +111,7 @@ recorrerla solo con la tecla Tab y medir los contrastes de cada par de colores.
 - El logo no carga: la marca se sigue entendiendo por el nombre "Cuatri" y por el texto alternativo
   del logo.
 - Pantalla muy ancha: el contenido no se estira; mantiene un ancho máximo y queda centrado.
-- La persona activa una acción varias veces seguidas: el aviso se muestra una sola vez, sin
-  duplicarse.
+- La persona vuelve al inicio desde la pantalla de carga: el inicio se ve igual que al entrar.
 - Preferencia del sistema de reducir el movimiento: la pantalla no tiene animaciones necesarias
   para entenderla.
 
@@ -134,17 +133,18 @@ recorrerla solo con la tecla Tab y medir los contrastes de cada par de colores.
   (verde) y "3 Generá opciones de cursada" (celeste).
 - **FR-006**: La pantalla MUST mostrar un botón principal destacado con el texto "+ Cargar mi
   primera carrera".
-- **FR-007**: La pantalla MUST mostrar, debajo del botón, el texto "O explorá un plan de ejemplo
-  para ver cómo funciona." donde "un plan de ejemplo" es un enlace.
+- **FR-007**: La pantalla MUST NOT mostrar el texto "O explorá un plan de ejemplo para ver cómo
+  funciona." ni ningún enlace a un plan de ejemplo mientras esa feature no exista; se agregará
+  junto con ella.
 - **FR-008**: La pantalla MUST NOT mostrar la opción "Salir" ni un pie de página mientras no exista
   la sesión de usuario (Cuatri funciona sin cuenta); cuando se especifique la sesión, se agregará
   junto con su comportamiento.
-- **FR-009**: Al activar el botón principal o el enlace del plan de ejemplo, mientras esos flujos no
-  existan, la pantalla MUST mostrar un aviso claro y amable de que esa parte aún no está disponible,
-  MUST mantener a la persona en la misma pantalla y MUST NOT mostrar errores.
-- **FR-010**: Solo MUST haber un aviso visible a la vez; un aviso nuevo reemplaza al anterior, y la
-  persona puede cerrarlo.
-- **FR-011**: El aviso MUST ser anunciado por los lectores de pantalla al aparecer.
+- **FR-009**: Al activar el botón principal, la pantalla MUST llevar a la pantalla de carga de la
+  carrera (feature 003). El botón MUST ser un enlace de navegación real (se puede abrir en otra
+  pestaña) y MUST NOT mostrar errores.
+- **FR-010**: (Retirado el 2026-11-21) El aviso de "próximamente" del botón principal ya no existe;
+  el inicio MUST NOT mostrar avisos de ese tipo.
+- **FR-011**: (Retirado el 2026-11-21 junto con el aviso.)
 - **FR-012**: La pantalla MUST ser usable sin cuenta y sin haber iniciado sesión.
 - **FR-013**: La pantalla MUST ser responsiva: legible y sin desplazamiento horizontal desde 320 px
   hasta 1920 px de ancho, con el contenido centrado y un ancho máximo de lectura.
@@ -172,8 +172,8 @@ recorrerla solo con la tecla Tab y medir los contrastes de cada par de colores.
   muestra un foco visible.
 - **SC-005**: No hay desplazamiento horizontal en ningún ancho entre 320 px y 1920 px, ni con zoom
   de texto al 200 %.
-- **SC-006**: Al activar cualquiera de las dos acciones, el aviso aparece en menos de 1 segundo, sin
-  errores visibles ni cambio de pantalla, en el 100 % de los intentos.
+- **SC-006**: Al activar el botón principal, la pantalla de carga de la carrera aparece en menos de
+  1 segundo, sin errores visibles, en el 100 % de los intentos.
 
 ## Assumptions
 
@@ -183,10 +183,12 @@ recorrerla solo con la tecla Tab y medir los contrastes de cada par de colores.
   ícono provisorio con el mismo tamaño y posición.
 - La pantalla de inicio es la primera que se abre al entrar a Cuatri.
 - Solo se define el modo claro, porque la guía de estilo no define uno oscuro.
-- Los avisos de "próximamente" se reemplazan por la navegación real cuando existan las features de
-  carga del plan de estudios y de plan de ejemplo.
+- El aviso de "próximamente" se reemplazó por la navegación real a la pantalla de carga de la carrera
+  (feature 003).
 - Los tres pasos son solo informativos y no llevan a ningún lado.
 - El diseño de referencia incluía un pie con "Salir"; se omite a propósito hasta que exista la
   sesión de usuario.
+- El diseño de referencia incluía "O explorá un plan de ejemplo…" bajo el botón; se omite a
+  propósito hasta que exista la feature del plan de ejemplo.
 - Fuera de alcance: el flujo de carga de la carrera, el plan de ejemplo, la marcación de materias,
   la generación de cursada, y cualquier lógica de cuentas o sesión (incluido "Salir").

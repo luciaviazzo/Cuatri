@@ -1,0 +1,240 @@
+{
+  "plan_info": {
+    "program": "Licenciatura en Informática",
+    "plan": "2019",
+    "version": "7"
+  },
+  "subjects": [
+    {
+      "code": "80000",
+      "name": "Lectura y Escritura Académica",
+      "activity_type": "Materia",
+      "credits": "10.00",
+      "group": "Ciclo Introductorio : Depto. de Ciencia y Tec (X-W-P)",
+      "is_elective": false,
+      "year": null,
+      "reported_year": null,
+      "reported_term": null,
+      "origin": "Promoción",
+      "prerequisites": null,
+      "status": {
+        "kind": "approved",
+        "grade": "9",
+        "condition": "Promocionado",
+        "text": null
+      }
+    },
+    {
+      "code": "80005",
+      "name": "Elementos de Programación y Lógica",
+      "activity_type": "Materia",
+      "credits": "10.00",
+      "group": "Ciclo Introductorio : Depto. de Ciencia y Tec (X-W-P)",
+      "is_elective": false,
+      "year": null,
+      "reported_year": null,
+      "reported_term": null,
+      "origin": "Promoción",
+      "prerequisites": null,
+      "status": {
+        "kind": "approved",
+        "grade": "10",
+        "condition": "Promocionado",
+        "text": null
+      }
+    },
+    {
+      "code": "8003N",
+      "name": "Matemática",
+      "activity_type": "Materia",
+      "credits": "10.00",
+      "group": "Ciclo Introductorio : Depto. de Ciencia y Tec (X-W-P)",
+      "is_elective": false,
+      "year": null,
+      "reported_year": null,
+      "reported_term": null,
+      "origin": null,
+      "prerequisites": null,
+      "status": null
+    },
+    {
+      "code": "01051",
+      "name": "Programación con Objetos III",
+      "activity_type": "Materia",
+      "credits": "8.00",
+      "group": "Cursos Avanzados de la carr:Lic en Informática(2012-2015-19)",
+      "is_elective": false,
+      "year": null,
+      "reported_year": null,
+      "reported_term": null,
+      "origin": "Promoción",
+      "prerequisites": null,
+      "status": {
+        "kind": "approved",
+        "grade": "8",
+        "condition": "Promocionado",
+        "text": null
+      }
+    },
+    {
+      "code": "01309",
+      "name": "Teoría de la Computación",
+      "activity_type": "Materia",
+      "credits": "8.00",
+      "group": "Cursos Avanzados de la carr:Lic en Informática(2012-2015-19)",
+      "is_elective": false,
+      "year": null,
+      "reported_year": null,
+      "reported_term": null,
+      "origin": null,
+      "prerequisites": null,
+      "status": {
+        "kind": "unparsed",
+        "grade": null,
+        "condition": null,
+        "text": "2 (Desaprobado)"
+      }
+    },
+    {
+      "code": "01310",
+      "name": "Arquitectura de Software I",
+      "activity_type": "Materia",
+      "credits": "12.00",
+      "group": "Cursos Avanzados de la carr:Lic en Informática(2012-2015-19)",
+      "is_elective": false,
+      "year": null,
+      "reported_year": null,
+      "reported_term": null,
+      "origin": null,
+      "prerequisites": null,
+      "status": null
+    },
+    {
+      "code": "00054",
+      "name": "Análisis Matemático I",
+      "activity_type": "Materia",
+      "credits": "12.00",
+      "group": "Cursos Básicos de la carrera: Lic en Informatica (2015-19)",
+      "is_elective": false,
+      "year": null,
+      "reported_year": null,
+      "reported_term": null,
+      "origin": null,
+      "prerequisites": null,
+      "status": null
+    },
+    {
+      "code": "00604",
+      "name": "Probabilidad y Estadística",
+      "activity_type": "Materia",
+      "credits": "12.00",
+      "group": "Cursos Básicos de la carrera: Lic en Informatica (2015-19)",
+      "is_elective": false,
+      "year": null,
+      "reported_year": null,
+      "reported_term": null,
+      "origin": null,
+      "prerequisites": null,
+      "status": null
+    },
+    {
+      "code": "01040",
+      "name": "Programación Concurrente",
+      "activity_type": "Materia",
+      "credits": "8.00",
+      "group": "Cursos Básicos de la carrera: Lic en Informatica (2015-19)",
+      "is_elective": false,
+      "year": null,
+      "reported_year": null,
+      "reported_term": null,
+      "origin": "Promoción",
+      "prerequisites": null,
+      "status": {
+        "kind": "approved",
+        "grade": "9",
+        "condition": "Promocionado",
+        "text": null
+      }
+    },
+    {
+      "code": "00940",
+      "name": "Redes Neuronales",
+      "activity_type": "Materia",
+      "credits": "8.00",
+      "group": "Nucleo de Orientación - carrera: Lic en Informática (2019) / Núcleo de Orientación del Ciclo Superior - W",
+      "is_elective": true,
+      "year": null,
+      "reported_year": null,
+      "reported_term": null,
+      "origin": null,
+      "prerequisites": null,
+      "status": null
+    },
+    {
+      "code": "01048",
+      "name": "Bases de Datos II",
+      "activity_type": "Materia",
+      "credits": "8.00",
+      "group": "Nucleo de Orientación - carrera: Lic en Informática (2019) / Núcleo de Orientación del Ciclo Superior - W",
+      "is_elective": true,
+      "year": null,
+      "reported_year": null,
+      "reported_term": null,
+      "origin": null,
+      "prerequisites": null,
+      "status": null
+    },
+    {
+      "code": "01622",
+      "name": "Seminarios",
+      "activity_type": "Materia",
+      "credits": "8.00",
+      "group": "Nucleo de Orientación - carrera: Lic en Informática (2019) / Núcleo de Orientación del Ciclo Superior - W",
+      "is_elective": true,
+      "year": null,
+      "reported_year": null,
+      "reported_term": null,
+      "origin": null,
+      "prerequisites": null,
+      "status": null
+    },
+    {
+      "code": "01033",
+      "name": "Matemática I",
+      "activity_type": "Materia",
+      "credits": "16.00",
+      "group": "(NBW) NucleoBasico en Diplomatura en Prog. Informatica",
+      "is_elective": false,
+      "year": null,
+      "reported_year": null,
+      "reported_term": null,
+      "origin": "Promoción",
+      "prerequisites": null,
+      "status": {
+        "kind": "approved",
+        "grade": "9",
+        "condition": "Promocionado",
+        "text": null
+      }
+    },
+    {
+      "code": "00487",
+      "name": "Introducción a la Programación",
+      "activity_type": "Materia",
+      "credits": "16.00",
+      "group": "(NBW) NucleoBasico en Diplomatura en Prog. Informatica",
+      "is_elective": false,
+      "year": null,
+      "reported_year": null,
+      "reported_term": null,
+      "origin": "Promoción",
+      "prerequisites": null,
+      "status": {
+        "kind": "approved",
+        "grade": "9",
+        "condition": "Promocionado",
+        "text": null
+      }
+    }
+  ]
+}
